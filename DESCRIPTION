@@ -1,0 +1,11 @@
+Package: growth
+Version: 1.0
+Title: Multivariate Normal and Elliptically-contoured Repeated Measurements Models
+Author: Jim Lindsey <jlindsey@gen.unimaas.nl>
+Maintainer:  Jim Lindsey <jlindsey@gen.unimaas.nl>
+Depends: R (>= 1.4), rmutil
+Description: Functions for fitting various normal theory (growth
+	curve) and elliptically-contoured repeated measurements models
+	with ARMA and random effects dependence.
+License: GPL version 2 or later
+URL: popgen.unimaas.nl/~jlindsey/rcode.html

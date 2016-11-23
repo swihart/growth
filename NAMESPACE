@@ -1,0 +1,9 @@
+useDynLib("growth")
+
+import(rmutil)
+
+export(carma,coef.carma,deviance.carma,fitted.carma,mprofile.carma,print.carma,residuals.carma,
+corgram,pergram,plot.pergram,plot.cum,plot.cum.pergram,
+elliptic,deviance.elliptic,fitted.elliptic,residuals.elliptic,print.elliptic,
+potthoff,print.potthoff,coef.potthoff,deviance.potthoff,residuals.potthoff,
+rmaov)
