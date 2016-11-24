@@ -28,6 +28,31 @@
 
 ### periodogram functions
 ###
+
+
+#' Calculate and Plot a Periodogram
+#' 
+#' \code{pergram} calculates the values of a periodogram, \code{plot.pergram}
+#' plots it, and \code{plot.cum.pergram} plots the corresponding cumulative
+#' periodogram.
+#' 
+#' 
+#' @aliases pergram plot.pergram plot.cum.pergram
+#' @param y A time series vector.
+#' @param add If TRUE, adds a new periodogram to an existing plot.
+#' @param others Plotting parameters
+#' @return \code{pergram} prints and returns a two-column matrix of class,
+#' \code{pergram}, containing the periodogram.
+#' @author J.K. Lindsey
+#' @keywords hplot
+#' @examples
+#' 
+#' y <- rnorm(100)
+#' print(z <- pergram(y))
+#' plot(z)
+#' plot.cum(z)
+#' 
+#' @export pergram
 pergram <- function(y){
 	ll <- length(y)
 	len <- trunc(ll/2)
@@ -81,6 +106,33 @@ plot.cum.pergram <- function(y, xlab="Frequency", ylab="Periodogram",
 ###
 ### correlogram function
 ###
+
+
+#' Calculate and Plot a Correlogram
+#' 
+#' \code{corgram} calculates the values of a correlogram (autocorrelation
+#' function or ACF) and plots it.
+#' 
+#' 
+#' @param y A time series vector.
+#' @param maxlag Maximum number of lags for which the correlation is to be
+#' calculated.
+#' @param partial If TRUE, the partial autocorrelation function (PACF) is
+#' plotted.
+#' @param wt Indicator vector with zeros for values to be ignored.
+#' @param add If TRUE, adds a new correlogram to an existing plot.
+#' @param others Plotting parameters
+#' @return \code{corgram} returns a two-column matrix containing the (partial)
+#' correlogram coordinates.
+#' @author J.K. Lindsey
+#' @keywords hplot
+#' @examples
+#' 
+#' y <- rnorm(100)
+#' corgram(y)
+#' corgram(y, partial=TRUE)
+#' 
+#' @export corgram
 corgram <- function(y, wt=1, maxlag=NULL, partial=FALSE, add=FALSE, lty=1,
 	xlim=NULL, ylim=NULL, xlab=NULL, ylab=NULL, main=NULL, ...){
 	if(any(wt!=0&&wt!=1))stop("weigts must be 0 or 1")
