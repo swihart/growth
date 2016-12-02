@@ -1,5 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd -->
+[![Travis-CI Build Status](https://travis-ci.org/swihart/growth.svg?branch=master)](https://travis-ci.org/swihart/growth) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/growth)](https://cran.r-project.org/package=growth) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/growth)
+
 `growth` R package
 ==================
 
