@@ -29,9 +29,9 @@
 #    Function to fit the multivariate normal distribution with ARMA
 #  and random intercept using Kalman filtering in continuous time
 
-.First.lib <- function(lib, pkg)
-	library.dynam("growth", pkg, lib)
-require(rmutil)
+# .First.lib <- function(lib, pkg)
+# 	library.dynam("growth", pkg, lib)
+# require(rmutil)
 
 
 
@@ -108,11 +108,23 @@ require(rmutil)
 #' data object of class, \code{repeated}, \code{tccov}, or \code{tvcov}; the
 #' name of the response variable should be given in \code{response}. If
 #' \code{response} has class \code{repeated}, it is used as the environment.
-#' @param others Arguments controlling \code{\link{nlm}}.
+##' @param print.level Arguments for nlm.
+##' @param typsize Arguments for nlm.
+##' @param ndigit Arguments for nlm.
+##' @param gradtol Arguments for nlm.
+##' @param stepmax Arguments for nlm.
+##' @param steptol Arguments for nlm.
+##' @param iterlim Arguments for nlm.
+##' @param fscale Arguments for nlm.
+#' @param object An object of class, \code{carma}.
 #' @param z An object of class, \code{carma}.
+#' @param x An object of class, \code{carma}.
 #' @param plotse Plot the standard errors around the marginal profile curve.
 #' @param recursive If TRUE, recursive residuals or fitted values are given;
 #' otherwise, marginal ones.
+#' @param correlation logical; print correlations.
+#' @param digits number of digits to print.
+#' @param ... additional arguments.
 #' @return A list of class \code{carma} is returned that contains all of the
 #' relevant information calculated, including error codes.
 #' @author R.H. Jones and J.K. Lindsey
@@ -150,7 +162,7 @@ require(rmutil)
 #' carma(y, ccov=~x1+x2, interact=c(2,0), torder=3, pre=c(-0.4,0.1), 
 #' 	position=rbind(c(1,1),c(2,2)))
 #' 
-#' @export carma
+#' @export
 carma <- function(response=NULL, ccov=NULL, times=NULL, torder=0, interaction,
 	arma=c(0,0,0), parma=NULL, pre=NULL, position=NULL, iopt=TRUE,
 	resid=TRUE, transform="identity", delta=NULL, envir=parent.frame(),
@@ -186,7 +198,7 @@ kalman <- function(p){
 		innov=double(nlp+1),
 		cstate=complex(maxar*(nlp+1)),
 		exx=complex(nlp+1),
-		DUP=FALSE,
+		#DUP=FALSE,
 		PACKAGE="growth")
 	list(like=z$like/2,
 		sse=z$sse,
@@ -221,7 +233,7 @@ kalmanl <- function(p){
 		innov=double(nlp+1),
 		cstate=complex(maxar*(nlp+1)),
 		exx=complex(nlp+1),
-		DUP=FALSE,
+		#DUP=FALSE,
 		PACKAGE="growth")
 	z$like/2}
 #
@@ -240,7 +252,7 @@ if(!missing(transform))transform <- match.arg(transform,c("identity",
 # if envir, remove extra (multivariate) responses
 #
 type <- "unknown"
-respenv <- exists(deparse(substitute(response)),env=parent.frame())&&
+respenv <- exists(deparse(substitute(response)),envir=parent.frame())&&
 	inherits(response,"repeated")&&!inherits(envir,"repeated")
 if(!respenv&&inherits(envir,"repeated")){
 	if(!is.null(envir$NAs)&&any(envir$NAs))
@@ -390,11 +402,11 @@ else if(transform=="exp"){
 	y <- exp(y)}
 else if(any(y==0))stop("Zero response values: invalid transformation")
 else if(transform=="square"){
-	jacob <- -sum(log(abs(y)))-length(resp$response$y)*log(2)
+	jacob <- -sum(log(abs(y)))-length(response$response$y)*log(2)
 	y  <- y^2}
 else if(any(y<0))stop("Nonpositive response values: invalid transformation")
 else if(transform=="sqrt"){
-	jacob <- sum(log(y))/2+length(resp$response$y)*log(2)
+	jacob <- sum(log(y))/2+length(response$response$y)*log(2)
 	y <- sqrt(y)}
 else if(transform=="log"){
 	jacob <- sum(log(y))
@@ -425,7 +437,7 @@ aic <- like+np+nlp+1
 z1 <- .Fortran("back",
 	xx=z2$xx,
 	as.integer(nlp),
-	DUP=FALSE,
+	#DUP=FALSE,
 	PACKAGE="growth")
 beta <- z1$xx[1:nlp,nlp+1]
 #
@@ -434,7 +446,7 @@ beta <- z1$xx[1:nlp,nlp+1]
 z1 <- .Fortran("ttvert",
 	xx=z1$xx,
 	as.integer(nlp),
-	DUP=FALSE,
+	#DUP=FALSE,
 	PACKAGE="growth")
 vbeta <- z1$xx[1:nlp,1:nlp]*mse
 if(nlp>1){
@@ -513,7 +525,7 @@ if(resid){
 		ncv=as.integer(ncv),
 		p=double(length(p)),
 		x=double(nlp+1),
-		DUP=FALSE,
+		#DUP=FALSE,
 		PACKAGE="growth")
 	rpred <- z$pred
 	sdr <- z$sdr
@@ -558,25 +570,30 @@ if(resid)class(z) <- c(class(z),"recursive")
 return(z)}
 
 ### standard methods
-###
-coef.carma <- function(z) list(beta=z$beta,coef=z$coefficients)
-
-deviance.carma <- function(z) 2*z$maxlike
-
-fitted.carma <- function(z, recursive=TRUE) if(recursive) z$rpred else z$pred
-
-residuals.carma <- function(z, recursive=TRUE){
-if(recursive)return(z$rresiduals)
+#' @describeIn carma Coefficients
+#' @export 
+coef.carma <- function(object, ...) list(beta=object$beta,coef=object$coefficients)
+#' @describeIn carma Deviance
+#' @export 
+deviance.carma <- function(object, ...) 2*object$maxlike
+#' @export 
+fitted.carma <- function(object, recursive=TRUE, ...) if(recursive) object$rpred else object$pred
+#' @describeIn carma Residuals
+#' @export 
+residuals.carma <- function(object, recursive=TRUE, ...){
+if(recursive)return(object$rresiduals)
 else {
-	if(z$transform=="exp")z$response$y <- exp(z$response$y)
-	else if(z$transform=="square")z$response$y  <- z$response$y^2
-	else if(z$transform=="sqrt")z$response$y <- sqrt(z$response$y)
-	else if(z$transform=="log")z$response$y <- log(z$response$y)
-	return((z$response$y-z$pred)/sqrt(z$mse))}}
+	if(object$transform=="exp")object$response$y <- exp(object$response$y)
+	else if(object$transform=="square")object$response$y  <- object$response$y^2
+	else if(object$transform=="sqrt")object$response$y <- sqrt(object$response$y)
+	else if(object$transform=="log")object$response$y <- log(object$response$y)
+	return((object$response$y-object$pred)/sqrt(object$mse))}}
 
 ### print method
-###
-print.carma <- function(z,digits=max(3,.Options$digits-3),correlation=TRUE){
+#' @describeIn carma Print method
+#' @export 
+print.carma <- function(x,digits=max(3,.Options$digits-3),correlation=TRUE,...){
+  z <- x; # S3 consistency
 if(!is.null(z$ccov$ccov))nccov <- dim(z$ccov$ccov)[2]
 else nccov <- 0
 cat("\nCall:",deparse(z$call),sep="\n")
@@ -615,7 +632,7 @@ if(z$np>0){
 			as.integer(n1),
 			as.double(z$coef[1:n1]),
 			r=complex(n1),
-			DUP=FALSE,
+			#DUP=FALSE,
 			PACKAGE="growth")
 		tmp <- if(any(Im(z0$r)!=0))z0$r else Re(z0$r)
 		title <- "Roots"}
@@ -669,8 +686,9 @@ if(z$np>1&&correlation){
 	print.default(z$nlcorr, digits=digits)}}
 
 ### special marginal profiles with se's
-###
-mprofile.carma <- function(z, times=NULL, ccov, plotse=TRUE){
+#' @describeIn carma Special marginal profiles with SEs
+#' @export 
+mprofile.carma <- function(z, times=NULL, ccov, plotse=TRUE, ...){
 #
 # if there are time-constant covariates, calculate how many and check
 # for what values plot is to be made

@@ -112,7 +112,8 @@ rmaov <- function(response, tvcov=NULL, ccov=NULL, analysis=TRUE){
 				tccov[[i]] <- as.factor(tccov[[i]])
 			ccov[[i]] <- gl(nlevels(tccov[[i]]),1,ncases,labels=levels(tccov[[i]]))
 			ccov[[i]][(rep(1:length(tccov[[i]]),rep(nc,length(tccov[[i]])))-1)*nc+rep(1:nc,length(tccov[[i]]))] <- tccov[[i]][rep(1:length(tccov[[i]]),rep(nc,length(tccov[[i]])))]}}
-	com <- paste("b<-data.frame(response=response,block=block")
+b <- NULL
+		com <- paste("b<-data.frame(response=response,block=block")
 	for(i in 1:nfac)com <- paste(com,",",rfacname[i],"=fm",as.character(i),sep="")
 	if(!is.null(ccov)){
 		if(is.null(names(ccov)))
@@ -126,6 +127,7 @@ rmaov <- function(response, tvcov=NULL, ccov=NULL, analysis=TRUE){
 	if(!is.null(ccov))
 		for(i in 1:length(ccov))
 			facterm <- paste(facterm,names(ccov)[i],sep="*")
+	res <- NULL
 	com <- paste("res<-aov(response~",facterm,"+Error(block/(",efacterm,")),data=b)\n",sep="")
 	eval(parse(text=com))
 	res}

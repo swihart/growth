@@ -2,18 +2,39 @@
 % Please edit documentation in R/autocor.r
 \name{pergram}
 \alias{pergram}
-\alias{plot.cum.pergram}
 \alias{plot.pergram}
+\alias{plot_cum}
+\alias{plot_cum.pergram}
 \title{Calculate and Plot a Periodogram}
 \usage{
 pergram(y)
+
+\method{plot}{pergram}(x, add = FALSE, lty = 1, xlab = "Frequency",
+  ylab = "Periodogram", main = "Periodogram", ylim = c(0, max(po[, 2])),
+  ...)
+
+\method{plot_cum}{pergram}(x, xlab = "Frequency", ylab = "Periodogram",
+  main = "Cumulative periodogram", ylim = c(0, max(cpo + 1.358/(a + 0.12 +
+  0.11/a))), ...)
 }
 \arguments{
 \item{y}{A time series vector.}
 
+\item{x}{Plotting parameters}
+
 \item{add}{If TRUE, adds a new periodogram to an existing plot.}
 
-\item{others}{Plotting parameters}
+\item{lty}{Plotting parameters}
+
+\item{xlab}{Plotting parameters}
+
+\item{ylab}{Plotting parameters}
+
+\item{main}{Plotting parameters}
+
+\item{ylim}{Plotting parameters}
+
+\item{...}{Plotting parameters}
 }
 \value{
 \code{pergram} prints and returns a two-column matrix of class,
@@ -24,12 +45,18 @@ pergram(y)
 plots it, and \code{plot.cum.pergram} plots the corresponding cumulative
 periodogram.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{plot}: Plot method
+
+\item \code{plot_cum}: Plot_cum method
+}}
 \examples{
 
 y <- rnorm(100)
 print(z <- pergram(y))
 plot(z)
-plot.cum(z)
+plot_cum(z)
 
 }
 \author{

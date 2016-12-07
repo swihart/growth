@@ -21,7 +21,19 @@ plotted.}
 
 \item{add}{If TRUE, adds a new correlogram to an existing plot.}
 
-\item{others}{Plotting parameters}
+\item{lty}{Plotting parameters}
+
+\item{xlim}{Plotting parameters}
+
+\item{ylim}{Plotting parameters}
+
+\item{xlab}{Plotting parameters}
+
+\item{ylab}{Plotting parameters}
+
+\item{main}{Plotting parameters}
+
+\item{...}{Plotting parameters}
 }
 \value{
 \code{corgram} returns a two-column matrix containing the (partial)
@@ -36,7 +48,6 @@ function or ACF) and plots it.
 y <- rnorm(100)
 corgram(y)
 corgram(y, partial=TRUE)
-
 }
 \author{
 J.K. Lindsey

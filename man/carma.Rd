@@ -2,8 +2,11 @@
 % Please edit documentation in R/carma.r
 \name{carma}
 \alias{carma}
+\alias{coef.carma}
+\alias{deviance.carma}
 \alias{fitted.carma}
 \alias{mprofile.carma}
+\alias{print.carma}
 \alias{residuals.carma}
 \title{Continuous ARMA for Unequally Spaced Repeated Measurements}
 \usage{
@@ -13,6 +16,17 @@ carma(response = NULL, ccov = NULL, times = NULL, torder = 0,
   delta = NULL, envir = parent.frame(), print.level = 0,
   typsize = abs(p), ndigit = 10, gradtol = 1e-05, steptol = 1e-05,
   iterlim = 100, fscale = 1, stepmax = 10 * sqrt(p \%*\% p))
+
+\method{coef}{carma}(object, ...)
+
+\method{deviance}{carma}(object, ...)
+
+\method{residuals}{carma}(object, recursive = TRUE, ...)
+
+\method{print}{carma}(x, digits = max(3, .Options$digits - 3),
+  correlation = TRUE, ...)
+
+\method{mprofile}{carma}(z, times = NULL, ccov, plotse = TRUE, ...)
 }
 \arguments{
 \item{response}{A list of two column matrices with response values and times
@@ -74,14 +88,38 @@ data object of class, \code{repeated}, \code{tccov}, or \code{tvcov}; the
 name of the response variable should be given in \code{response}. If
 \code{response} has class \code{repeated}, it is used as the environment.}
 
-\item{others}{Arguments controlling \code{\link{nlm}}.}
+\item{print.level}{Arguments for nlm.}
+
+\item{typsize}{Arguments for nlm.}
+
+\item{ndigit}{Arguments for nlm.}
+
+\item{gradtol}{Arguments for nlm.}
+
+\item{steptol}{Arguments for nlm.}
+
+\item{iterlim}{Arguments for nlm.}
+
+\item{fscale}{Arguments for nlm.}
+
+\item{stepmax}{Arguments for nlm.}
+
+\item{object}{An object of class, \code{carma}.}
+
+\item{...}{additional arguments.}
+
+\item{recursive}{If TRUE, recursive residuals or fitted values are given;
+otherwise, marginal ones.}
+
+\item{x}{An object of class, \code{carma}.}
+
+\item{digits}{number of digits to print.}
+
+\item{correlation}{logical; print correlations.}
 
 \item{z}{An object of class, \code{carma}.}
 
 \item{plotse}{Plot the standard errors around the marginal profile curve.}
-
-\item{recursive}{If TRUE, recursive residuals or fitted values are given;
-otherwise, marginal ones.}
 }
 \value{
 A list of class \code{carma} is returned that contains all of the
@@ -113,6 +151,18 @@ For any ARMA of order superior to an AR(1), the (complex) roots of the
 characteristic equation are printed out; see Jones and Ackerson (1991) for
 their use in calculation of the covariance function.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{coef}: Coefficients
+
+\item \code{deviance}: Deviance
+
+\item \code{residuals}: Residuals
+
+\item \code{print}: Print method
+
+\item \code{mprofile}: Special marginal profiles with SEs
+}}
 \examples{
 
 y <- matrix(rnorm(40),ncol=5)

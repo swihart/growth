@@ -37,10 +37,16 @@
 #' periodogram.
 #' 
 #' 
-#' @aliases pergram plot.pergram plot.cum.pergram
+#' @aliases pergram plot.pergram plot_cum plot_cum.pergram
 #' @param y A time series vector.
 #' @param add If TRUE, adds a new periodogram to an existing plot.
-#' @param others Plotting parameters
+#' @param x Plotting parameters
+#' @param lty Plotting parameters
+#' @param xlab Plotting parameters
+#' @param ylab Plotting parameters
+#' @param main Plotting parameters
+#' @param ylim Plotting parameters
+#' @param ... Plotting parameters
 #' @return \code{pergram} prints and returns a two-column matrix of class,
 #' \code{pergram}, containing the periodogram.
 #' @author J.K. Lindsey
@@ -50,9 +56,9 @@
 #' y <- rnorm(100)
 #' print(z <- pergram(y))
 #' plot(z)
-#' plot.cum(z)
+#' plot_cum(z)
 #' 
-#' @export pergram
+#' @export
 pergram <- function(y){
 	ll <- length(y)
 	len <- trunc(ll/2)
@@ -72,9 +78,11 @@ pergram <- function(y){
 #		fc[i,1] <- sum(y*sin(a))
 #		fc[i,2] <- sum(y*cos(a))}
 #	invisible(cbind(2*pi*(1:len)/ll,(fc[,1]^2+fc[,2]^2)*ll/4/pi))}
-
-plot.pergram <- function(y, add=FALSE, lty=1, xlab="Frequency",
-	ylab="Periodogram", main="Periodogram", ylim=c(0,max(po[,2]))){
+#' @describeIn pergram Plot method
+#' @export 
+plot.pergram <- function(x, add=FALSE, lty=1, xlab="Frequency",
+	ylab="Periodogram", main="Periodogram", ylim=c(0,max(po[,2])), ...){
+  y <- x
 	if(inherits(y,"pergram"))po <- y
 	else po <- pergram(y)
 	if(add)lines(po[,1],po[,2],lty=lty)
@@ -82,12 +90,15 @@ plot.pergram <- function(y, add=FALSE, lty=1, xlab="Frequency",
 		lty=lty,ylim=ylim)
 	invisible(po)}
 
-plot.cum <- function(z, ...) 
-	UseMethod("plot.cum")
+#' @export 
+plot_cum <- function(x, ...) UseMethod("plot_cum")
 
-plot.cum.pergram <- function(y, xlab="Frequency", ylab="Periodogram",
+#' @describeIn pergram Plot_cum method
+#' @export 
+plot_cum.pergram <- function(x, xlab="Frequency", ylab="Periodogram",
 	main="Cumulative periodogram",
-	ylim=c(0,max(cpo+1.358/(a+0.12+0.11/a)))){
+	ylim=c(0,max(cpo+1.358/(a+0.12+0.11/a))), ...){
+  y <- x
 	if(inherits(y,"pergram")){
 		len <- 2*dim(y)[1]
 		po <- y}
@@ -121,7 +132,13 @@ plot.cum.pergram <- function(y, xlab="Frequency", ylab="Periodogram",
 #' plotted.
 #' @param wt Indicator vector with zeros for values to be ignored.
 #' @param add If TRUE, adds a new correlogram to an existing plot.
-#' @param others Plotting parameters
+#' @param xlim Plotting parameters
+#' @param lty Plotting parameters
+#' @param xlab Plotting parameters
+#' @param ylab Plotting parameters
+#' @param main Plotting parameters
+#' @param ylim Plotting parameters
+#' @param ... Plotting parameters
 #' @return \code{corgram} returns a two-column matrix containing the (partial)
 #' correlogram coordinates.
 #' @author J.K. Lindsey
@@ -131,11 +148,10 @@ plot.cum.pergram <- function(y, xlab="Frequency", ylab="Periodogram",
 #' y <- rnorm(100)
 #' corgram(y)
 #' corgram(y, partial=TRUE)
-#' 
-#' @export corgram
+#' @export
 corgram <- function(y, wt=1, maxlag=NULL, partial=FALSE, add=FALSE, lty=1,
 	xlim=NULL, ylim=NULL, xlab=NULL, ylab=NULL, main=NULL, ...){
-	if(any(wt!=0&&wt!=1))stop("weigts must be 0 or 1")
+	if(any(wt!=0&&wt!=1))stop("weights must be 0 or 1")
 	len <- length(y)
 	if(length(wt)==1)wt <- rep(1,len)
 	if(any(is.na(y)))wt[is.na(y)] <- 0

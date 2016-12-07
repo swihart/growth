@@ -192,15 +192,18 @@ return(z)}
 
 ### standard methods
 ###
-coef.potthoff <- function(z) z$beta
-
-deviance.potthoff <- function(z) 2*z$maxlike
-
-residuals.potthoff <- function(z) z$residuals
+#' @export 
+coef.potthoff <- function(object, ...) object$beta
+#' @export 
+deviance.potthoff <- function(object, ...) 2*object$maxlike
+#' @export 
+residuals.potthoff <- function(object, ...) object$residuals
 
 ### print method
 ###
-print.potthoff <- function(z, digits = max(3, .Options$digits - 3)) {
+#' @export 
+print.potthoff <- function(x, digits = max(3, .Options$digits - 3), ...) {
+  z <- x; # S3 consistency
 cat("\nCall:",deparse(z$call),sep="\n")
 cat("\n")
 cat("Number of subjects    ",z$ns,"\n")

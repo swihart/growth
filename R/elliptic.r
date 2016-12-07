@@ -204,12 +204,23 @@
 #' (e.g. twin data). If TRUE and \code{covfn} is supplied, allows the
 #' covariance to vary across pairs of twins with the diagonal "variance" of the
 #' covariance matrix remaining constant.
-#' @param others Arguments controlling \code{\link{nlm}}.
-#' @param z An object of class, \code{elliptic}.
+##' @param print.level Arguments for nlm.
+##' @param typsize Arguments for nlm.
+##' @param ndigit Arguments for nlm.
+##' @param gradtol Arguments for nlm.
+##' @param stepmax Arguments for nlm.
+##' @param steptol Arguments for nlm.
+##' @param iterlim Arguments for nlm.
+##' @param fscale Arguments for nlm.
+#' @param object An object of class, \code{elliptic}.
+#' @param x An object of class, \code{elliptic}.
 #' @param recursive If TRUE, recursive residuals or fitted values are given;
 #' otherwise, marginal ones. In all cases, raw residuals are returned, not
 #' standardized by the standard deviation (which may be changing with
 #' covariates or time).
+#' @param correlation logical; print correlations.
+#' @param digits number of digits to print.
+#' @param ... additional arguments.
 #' @return A list of class \code{elliptic} is returned that contains all of the
 #' relevant information calculated, including error codes.
 #' @author J.K. Lindsey
@@ -415,6 +426,10 @@
 #' 	distribution="Student t")
 #' 
 #' @export elliptic
+##' @importFrom graphics abline lines plot 
+##' @importFrom stats contr.poly fft model.frame model.matrix na.fail nlm terms var
+##' @import rmutil
+##' @useDynLib growth
 elliptic <- function(response=NULL, model="linear", distribution="normal",
 	times=NULL, dose=NULL, ccov=NULL, tvcov=NULL, nest=NULL,
 	torder=0, interaction=NULL, transform="identity",
@@ -475,7 +490,7 @@ plra <- function(theta){
 		as.double(mu),
 		as.double(varn),
 		as.double(covn),
-		DUP=FALSE,
+		#DUP=FALSE,
 		PACKAGE="growth")
 	list(like=z$like,res=z$dev,beta=z$beta,betacov=z$betacov)}
 #
@@ -529,7 +544,7 @@ plral <- function(theta){
 		as.double(mu),
 		as.double(varn),
 		as.double(covn),
-		DUP=FALSE,
+		#DUP=FALSE,
 		PACKAGE="growth")
 	z$like}
 call <- sys.call()
@@ -573,7 +588,7 @@ ntvc <- if(!is.null(tvcov))1 else 0
 #
 # check if a data object is being supplied
 #
-respenv <- exists(deparse(substitute(response)),env=parent.frame())&&
+respenv <- exists(deparse(substitute(response)),envir=parent.frame())&&
 	inherits(response,"repeated")&&!inherits(envir,"repeated")
 if(respenv){
 	if(dim(response$response$y)[2]>1)
@@ -984,7 +999,7 @@ else if(transform=="exp"){
 	y <- exp(y)}
 else if(any(y==0))stop("Zero response values: invalid transformation")
 else if(transform=="square"){
-	jacob <- -sum(log(asb(y)))-length(resp$response$y)*log(2)
+	jacob <- -sum(log(abs(y)))-length(resp$response$y)*log(2)
 	y  <- y^2}
 else if(any(y<0))stop("Nonpositive response values: invalid transformation")
 else if(transform=="sqrt"){
@@ -1145,7 +1160,7 @@ if(dst==1&&!common&&length(sigsq)==1&&((npar>0&&
 		nobs=as.integer(nobs(resp)),
 		nod=as.integer(length(pre)),
 		p=double(length(p)),
-		DUP=FALSE,
+		#DUP=FALSE,
 		PACKAGE="growth")
 	rpred <- z1$rpred
 	ii <- covind(resp$response)
@@ -1212,30 +1227,34 @@ if(!is.null(rpred))class(z) <- c(class(z),"recursive")
 return(z)}
 
 ### standard methods
-###
-
-deviance.elliptic <- function(z) 2*z$maxlike
-
-fitted.elliptic <- function(z, recursive=FALSE){
+#' @describeIn elliptic Deviance method
+#' @export 
+deviance.elliptic <- function(object, ...) 2*object$maxlike
+#' @describeIn elliptic Fitted method
+#' @export 
+fitted.elliptic <- function(object, recursive=FALSE, ...){
 if(recursive){
-	if(is.null(z$rpred))stop("recursive fitted values not available")
-	z$rpred}
-else z$pred}
-
-residuals.elliptic <- function(z, recursive=FALSE){
+	if(is.null(object$rpred))stop("recursive fitted values not available")
+	object$rpred}
+else object$pred}
+#' @describeIn elliptic Residuals method
+#' @export 
+residuals.elliptic <- function(object, recursive=FALSE, ...){
 if(recursive){
-	if(is.null(z$rresiduals))stop("recursive residuals not available")
-	return(z$rresiduals)}
+	if(is.null(object$rresiduals))stop("recursive residuals not available")
+	return(object$rresiduals)}
 else {
-	if(z$transform=="exp")z$response$y <- exp(z$response$y)
-	else if(z$transform=="square")z$response$y  <- z$response$y^2
-	else if(z$transform=="sqrt")z$response$y <- sqrt(z$response$y)
-	else if(z$transform=="log")z$response$y <- log(z$response$y)
-	return(z$response$y-z$pred)}}
+	if(object$transform=="exp")object$response$y <- exp(object$response$y)
+	else if(object$transform=="square")object$response$y  <- object$response$y^2
+	else if(object$transform=="sqrt")object$response$y <- sqrt(object$response$y)
+	else if(object$transform=="log")object$response$y <- log(object$response$y)
+	return(object$response$y-object$pred)}}
 
 ### print method
-###
-print.elliptic <- function(z,digits=max(3,.Options$digits-3),correlation=TRUE){
+#' @describeIn elliptic Print method
+#' @export 
+print.elliptic <- function(x,digits=max(3,.Options$digits-3),correlation=TRUE, ...){
+  z <- x; # S3 consistency
 if(!is.null(z$ccov$ccov))nccov <- dim(z$ccov$ccov)[2]
 else nccov <- 0
 cat("\nMultivariate",z$distribution,"distribution\n")
