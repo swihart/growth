@@ -226,7 +226,7 @@ c
       integer nobs(nind),inter(nccov),nest(1)
       double precision beta(npvl),betacov(npvl,npvl),tb(npvl),
      +     ccov(nind,nccov),v(nld,nld),tvcov(1),t1,t2,det(2),
-     +     x(1),y(1),sigsq(nld),tausq(2),rho,ldet
+     +     x(1),y(*),sigsq(nld),tausq(2),rho,ldet
 c
       do 17 j=1,npvl
          tb(j)=0.
