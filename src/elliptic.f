@@ -42,12 +42,12 @@ c
       integer np,nind,nxrl,link,i,j,k,nccov,tvc,ar,nbs,npell,dist,
      +     lnest,nm,torder,model,npv,npvar,npre,npar,nld,npvl,cvar,
      +     ccvar,twins
-      integer nobs(nind),inter(nccov),nest(1)
-      double precision x(1),y(1),beta(npvl),betacov(npvl,npvl),
-     +     tvcov(1),rxl(nind),dev(1),ccov(nind,nccov),ey(nld),
+      integer nobs(nind),inter(nccov),nest(*)
+      double precision x(*),y(*),beta(npvl),betacov(npvl,npvl),
+     +     tvcov(*),rxl(nind),dev(*),ccov(nind,nccov),ey(nld),
      +     like,theta(np),tb(npvl),v(nld,nld),tausq(2),sigsq(nld),
-     +     rho,ldet,qf,qf2,qf3,dose(nind),mu(1),var(1),pow,tmp1,tmp2,
-     +     covar(1)
+     +     rho,ldet,qf,qf2,qf3,dose(nind),mu(*),var(*),pow,tmp1,tmp2,
+     +     covar(*)
 c
 c     compute parameters of the covariance matrix
 c
@@ -223,10 +223,10 @@ c
       implicit none
       integer npvl,npvar,nind,nccov,torder,lnest,np,npv,nld,info,
      +     nm,i,j,k,l,m,j1,j2,k1,k2,npar,npre,tvc,ar,nbs,twins
-      integer nobs(nind),inter(nccov),nest(1)
+      integer nobs(nind),inter(nccov),nest(*)
       double precision beta(npvl),betacov(npvl,npvl),tb(npvl),
-     +     ccov(nind,nccov),v(nld,nld),tvcov(1),t1,t2,det(2),
-     +     x(1),y(*),sigsq(nld),tausq(2),rho,ldet
+     +     ccov(nind,nccov),v(nld,nld),tvcov(*),t1,t2,det(2),
+     +     x(*),y(*),sigsq(nld),tausq(2),rho,ldet
 c
       do 17 j=1,npvl
          tb(j)=0.
@@ -330,9 +330,9 @@ c
       integer nobs,nm,i,j,k,link,model,nxrl,nld,torder,npv,npvar,
      +     nind,np,npvl,nccov,k1,k2,tvc,nbs
       integer inter(nccov)
-      double precision theta(np),thetap(4),ey(nld),tvcov(1),
-     +     x(1),y(1),rxl(nind),ccov(nind,nccov),beta(npvl),
-     +     dose,dev(1),beta1,delta,tmp,d,tb(npvl),mu(1)
+      double precision theta(np),thetap(4),ey(nld),tvcov(*),
+     +     x(*),y(*),rxl(nind),ccov(nind,nccov),beta(npvl),
+     +     dose,dev(*),beta1,delta,tmp,d,tb(npvl),mu(*)
 c
 c     linear/polynomial model
 c
@@ -465,9 +465,9 @@ c
       integer nobs,nm,i,j,k,model,nld,npv,nind,np,nccov,link,nxrl,
      +     torder,npvar,npvl,cvar,tvc,nbs
       integer inter(nccov)
-      double precision theta(np),tvcov(1),ccov(nind,nccov),
-     +     sigsq(nld),tmp,d,dose,dev(1),rxl(nind),x(1),y(1),
-     +     ey(nld),beta(npvl),var(1),tb(npvl),mu(1)
+      double precision theta(np),tvcov(*),ccov(nind,nccov),
+     +     sigsq(nld),tmp,d,dose,dev(*),rxl(nind),x(*),y(*),
+     +     ey(nld),beta(npvl),var(*),tb(npvl),mu(*)
 c
 c     an R function for the variance
 c 
@@ -541,9 +541,9 @@ c
 c compute the variance matrix for the unit
 c
       implicit none
-      integer nobs,i,j,k,nm,nest(1),lnest,nn1,nn2,k1,j1,
+      integer nobs,i,j,k,nm,nest(*),lnest,nn1,nn2,k1,j1,
      +     nind,nld,info,npre,npar,ar,twins
-      double precision x(1),v(nld,nld),det(2),sigsq(nld),tausq(2),
+      double precision x(*),v(nld,nld),det(2),sigsq(nld),tausq(2),
      +     rho,ldet,tmp
 c
       k1=0
