@@ -5,6 +5,7 @@ Feb 2019
 ## Re-Submission 1
 
   * fixed an `Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’` NOTE.  
+  * corrected Fatal error: length > 1 in coercion to logical (raised on R-devel check)
 
 ## Test environments
 * local OS X install: R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
