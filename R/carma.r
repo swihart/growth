@@ -615,7 +615,7 @@ cname <- "(Intercept)"
 if(z$torder>0)cname <- c(cname,paste("t^",1:z$torder,sep=""))
 if(nccov>0)for(i in 1:nccov){
 	cname <- c(cname,colnames(z$ccov$ccov)[i])
-	if(!is.na(z$interaction)&&z$interaction[i]>0){
+	if(!is.na(z$interaction[1])&&z$interaction[i]>0){
 		cname <- c(cname,paste(colnames(z$ccov$ccov)[i],".t^",1:z$interaction[i],sep=""))}}
 dimnames(coef.table) <- list(cname, c("estimate", "se"))
 print.default(coef.table, digits=digits, print.gap=2)
