@@ -1,5 +1,5 @@
 Package: growth
-Version: 1.1.0
+Version: 1.1.1
 Title: Multivariate Normal and Elliptically-Contoured Repeated Measurements
     Models
 Authors@R: c(
@@ -17,4 +17,4 @@ BugReports: https:/github.com/swihart/growth/issues
 Encoding: UTF-8
 LazyData: true
 LazyLoad: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.1
