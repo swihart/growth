@@ -377,7 +377,7 @@ if(!is.null(position)){
 		stop(paste("Random effects position must have",nre,"rows"))
 	if(dim(position)[2]!=2)stop("Position matrix must have two columns")
 	if((any(position[,1]<1)||any(position[,1]>nre)||any(position[,2]<1)||
-		any(position[,2]>nre))||position[,1]>position[,2])
+		any(position[,2]>nre))||any(position[,1]>position[,2]))
 		stop("Position for covariance matrix out of range")
 	if(max(position[,2])>torder)
 		warning("number of random effects greater than order of polynomial in time")
