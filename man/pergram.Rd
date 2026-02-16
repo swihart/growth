@@ -9,13 +9,25 @@
 \usage{
 pergram(y)
 
-\method{plot}{pergram}(x, add = FALSE, lty = 1, xlab = "Frequency",
-  ylab = "Periodogram", main = "Periodogram", ylim = c(0, max(po[,
-  2])), ...)
+\method{plot}{pergram}(
+  x,
+  add = FALSE,
+  lty = 1,
+  xlab = "Frequency",
+  ylab = "Periodogram",
+  main = "Periodogram",
+  ylim = c(0, max(po[, 2])),
+  ...
+)
 
-\method{plot_cum}{pergram}(x, xlab = "Frequency", ylab = "Periodogram",
-  main = "Cumulative periodogram", ylim = c(0, max(cpo + 1.358/(a +
-  0.12 + 0.11/a))), ...)
+\method{plot_cum}{pergram}(
+  x,
+  xlab = "Frequency",
+  ylab = "Periodogram",
+  main = "Cumulative periodogram",
+  ylim = c(0, max(cpo + 1.358/(a + 0.12 + 0.11/a))),
+  ...
+)
 }
 \arguments{
 \item{y}{A time series vector.}
@@ -47,11 +59,11 @@ periodogram.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{plot}: Plot method
+\item \code{plot(pergram)}: Plot method
 
-\item \code{plot_cum}: Plot_cum method
+\item \code{plot_cum(pergram)}: Plot_cum method
+
 }}
-
 \examples{
 
 y <- rnorm(100)

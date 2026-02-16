@@ -9,16 +9,41 @@
 \title{Nonlinear Multivariate Elliptically-contoured Repeated Measurements Models
 with AR(1) and Two Levels of Variance Components}
 \usage{
-elliptic(response = NULL, model = "linear", distribution = "normal",
-  times = NULL, dose = NULL, ccov = NULL, tvcov = NULL,
-  nest = NULL, torder = 0, interaction = NULL,
-  transform = "identity", link = "identity",
-  autocorr = "exponential", pell = NULL, preg = NULL, covfn = NULL,
-  pvar = var(y), varfn = NULL, par = NULL, pre = NULL,
-  delta = NULL, shfn = FALSE, common = FALSE, twins = FALSE,
-  envir = parent.frame(), print.level = 0, ndigit = 10,
-  gradtol = 1e-05, steptol = 1e-05, iterlim = 100, fscale = 1,
-  stepmax = 10 * sqrt(theta \%*\% theta), typsize = abs(c(theta)))
+elliptic(
+  response = NULL,
+  model = "linear",
+  distribution = "normal",
+  times = NULL,
+  dose = NULL,
+  ccov = NULL,
+  tvcov = NULL,
+  nest = NULL,
+  torder = 0,
+  interaction = NULL,
+  transform = "identity",
+  link = "identity",
+  autocorr = "exponential",
+  pell = NULL,
+  preg = NULL,
+  covfn = NULL,
+  pvar = var(y),
+  varfn = NULL,
+  par = NULL,
+  pre = NULL,
+  delta = NULL,
+  shfn = FALSE,
+  common = FALSE,
+  twins = FALSE,
+  envir = parent.frame(),
+  print.level = 0,
+  ndigit = 10,
+  gradtol = 1e-05,
+  steptol = 1e-05,
+  iterlim = 100,
+  fscale = 1,
+  stepmax = 10 * sqrt(theta \%*\% theta),
+  typsize = abs(c(theta))
+)
 
 \method{deviance}{elliptic}(object, ...)
 
@@ -26,8 +51,7 @@ elliptic(response = NULL, model = "linear", distribution = "normal",
 
 \method{residuals}{elliptic}(object, recursive = FALSE, ...)
 
-\method{print}{elliptic}(x, digits = max(3, .Options$digits - 3),
-  correlation = TRUE, ...)
+\method{print}{elliptic}(x, digits = max(3, .Options$digits - 3), correlation = TRUE, ...)
 }
 \arguments{
 \item{response}{A list of two or three column matrices with response values,
@@ -258,15 +282,15 @@ be plotted using \code{\link[rmutil]{mprofile}} and
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{deviance}: Deviance method
+\item \code{deviance(elliptic)}: Deviance method
 
-\item \code{fitted}: Fitted method
+\item \code{fitted(elliptic)}: Fitted method
 
-\item \code{residuals}: Residuals method
+\item \code{residuals(elliptic)}: Residuals method
 
-\item \code{print}: Print method
+\item \code{print(elliptic)}: Print method
+
 }}
-
 \examples{
 
 # linear models

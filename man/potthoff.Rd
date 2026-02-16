@@ -4,8 +4,14 @@
 \alias{potthoff}
 \title{Potthoff and Roy Growth Curve Model}
 \usage{
-potthoff(response, x = NULL, ccov = NULL, times = NULL, torder = 0,
-  orthogonal = TRUE)
+potthoff(
+  response,
+  x = NULL,
+  ccov = NULL,
+  times = NULL,
+  torder = 0,
+  orthogonal = TRUE
+)
 }
 \arguments{
 \item{response}{A matrix or dataframe of response values.}

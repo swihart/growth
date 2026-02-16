@@ -10,13 +10,30 @@
 \alias{print.carma}
 \title{Continuous ARMA for Unequally Spaced Repeated Measurements}
 \usage{
-carma(response = NULL, ccov = NULL, times = NULL, torder = 0,
-  interaction, arma = c(0, 0, 0), parma = NULL, pre = NULL,
-  position = NULL, iopt = TRUE, resid = TRUE,
-  transform = "identity", delta = NULL, envir = parent.frame(),
-  print.level = 0, typsize = abs(p), ndigit = 10, gradtol = 1e-05,
-  steptol = 1e-05, iterlim = 100, fscale = 1, stepmax = 10 * sqrt(p
-  \%*\% p))
+carma(
+  response = NULL,
+  ccov = NULL,
+  times = NULL,
+  torder = 0,
+  interaction,
+  arma = c(0, 0, 0),
+  parma = NULL,
+  pre = NULL,
+  position = NULL,
+  iopt = TRUE,
+  resid = TRUE,
+  transform = "identity",
+  delta = NULL,
+  envir = parent.frame(),
+  print.level = 0,
+  typsize = abs(p),
+  ndigit = 10,
+  gradtol = 1e-05,
+  steptol = 1e-05,
+  iterlim = 100,
+  fscale = 1,
+  stepmax = 10 * sqrt(p \%*\% p)
+)
 
 \method{coef}{carma}(object, ...)
 
@@ -24,8 +41,7 @@ carma(response = NULL, ccov = NULL, times = NULL, torder = 0,
 
 \method{residuals}{carma}(object, recursive = TRUE, ...)
 
-\method{print}{carma}(x, digits = max(3, .Options$digits - 3),
-  correlation = TRUE, ...)
+\method{print}{carma}(x, digits = max(3, .Options$digits - 3), correlation = TRUE, ...)
 
 \method{mprofile}{carma}(z, times = NULL, ccov, plotse = TRUE, ...)
 }
@@ -154,17 +170,17 @@ their use in calculation of the covariance function.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{coef}: Coefficients
+\item \code{coef(carma)}: Coefficients
 
-\item \code{deviance}: Deviance
+\item \code{deviance(carma)}: Deviance
 
-\item \code{residuals}: Residuals
+\item \code{residuals(carma)}: Residuals
 
-\item \code{print}: Print method
+\item \code{print(carma)}: Print method
 
-\item \code{mprofile}: Special marginal profiles with SEs
+\item \code{mprofile(carma)}: Special marginal profiles with SEs
+
 }}
-
 \examples{
 
 y <- matrix(rnorm(40),ncol=5)

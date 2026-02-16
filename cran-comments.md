@@ -1,5 +1,21 @@
 # growth R package
 Bruce Swihart  
+FEB 2026
+
+## Submission
+
+  * Fixed news.md formatting
+
+## Test environments
+* local OS X install: R version 4.5.2 (2025-10-31)
+* win-builder: R Under development (unstable) (2026-02-12 r89409 ucrt)
+
+## R CMD check results
+There were no ERRORs or WARNINGs or NOTEs.
+
+
+# growth R package
+Bruce Swihart  
 Feb 2019
 
 ## Re-Submission 1

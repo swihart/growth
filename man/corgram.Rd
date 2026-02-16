@@ -4,9 +4,20 @@
 \alias{corgram}
 \title{Calculate and Plot a Correlogram}
 \usage{
-corgram(y, wt = 1, maxlag = NULL, partial = FALSE, add = FALSE,
-  lty = 1, xlim = NULL, ylim = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, ...)
+corgram(
+  y,
+  wt = 1,
+  maxlag = NULL,
+  partial = FALSE,
+  add = FALSE,
+  lty = 1,
+  xlim = NULL,
+  ylim = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  ...
+)
 }
 \arguments{
 \item{y}{A time series vector.}
